@@ -8,7 +8,7 @@
 # U heeft 1 correct cijfers
 # U heeft de volgende cijfers correct: [4]
 while True:
-    import random
+    from random import sample
 
     header = '--- Lotto ---'
     rules_of_lotto = ''
@@ -17,7 +17,7 @@ while True:
     size_of_lottofield = 6
     # random.sample Return a k length list of unique elements chosen from the population sequence.
     try:
-        win_combination = random.sample(range(range_lotto_min, range_lotto_max), size_of_lottofield)
+        win_combination = sample(range(range_lotto_min, range_lotto_max), size_of_lottofield)
     except ValueError:
         print('de grotte van de lottokaart moet kleiner zijn dan de reeks getallen die bij het spel betrokken zijn')
 
