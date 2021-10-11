@@ -14,18 +14,39 @@ from sys import argv
 from datetime import date, timedelta, datetime
 from dateutil.relativedelta import relativedelta
 
-year_of_user_birth = int(argv[1])
-month_of_user_birth = int(argv[2])
-day_of_user_birth = int(argv[3])
-
-# C_TEXT_BIRTH_ST = 'Enter your birth'
-# C_TEXT_FORMAT = 'only numbers'
+params_length = len(argv)
 
 # year_of_user_birth = int(input(f'{C_TEXT_BIRTH_ST} year, {C_TEXT_FORMAT}   '))
 # month_of_user_birth = int(input(f'{C_TEXT_BIRTH_ST} month, {C_TEXT_FORMAT}   '))
 # day_of_user_birth = int(input(f'{C_TEXT_BIRTH_ST} day, {C_TEXT_FORMAT}   '))
 
-birth_day = date(year_of_user_birth, month_of_user_birth, day_of_user_birth)
+C_TEXT_WARN = 'Probeer alstublieft nog één keer'
+
+for i in range(1, params_length):
+    try:
+        if i == 1:
+            year_of_user_birth = int(argv[i])
+        if i == 2:
+            month_of_user_birth = int(argv[i])
+        if i == 3:
+            day_of_user_birth = int(argv[i])
+
+    except ValueError:
+        if i == 1:
+            year_of_user_birth = int(input(f'het jaar moet realistisch zijn, gewoon 4 cijfers, {C_TEXT_WARN} {argv[i]}'))
+        elif i == 2:
+            month_of_user_birth = int(input(f'de maand was niet geldig, {C_TEXT_WARN} {argv[i]}'))
+        elif i == 3:
+            day_of_user_birth = int(input(f'de dag was niet geldig, {C_TEXT_WARN} {argv[i]}'))
+
+try:
+    birth_day = date(year_of_user_birth, month_of_user_birth, day_of_user_birth)
+except ValueError:
+    year_of_user_birth = int(input(f'het jaar moet realistisch zijn, gewoon 4 cijfers. {C_TEXT_WARN} '))
+    month_of_user_birth = int(input(f'de maand was niet geldig. {C_TEXT_WARN} '))
+    day_of_user_birth = int(input(f'de dag was niet geldig. {C_TEXT_WARN} '))
+    birth_day = date(year_of_user_birth, month_of_user_birth, day_of_user_birth)
+
 # 18 years
 year_of_18 = birth_day.year + 18
 date_18 = date(year_of_18, month_of_user_birth, day_of_user_birth)
@@ -34,13 +55,14 @@ date_of_pension = birth_day + relativedelta(months=805)
 
 if date_of_pension.day != birth_day.day:
     date_of_pension += timedelta(days=1)
-# age
+# user age
 today = datetime.now()
 
-if (today.month, today.day) < (birth_day.month, birth_day.day):
+user_age = relativedelta(today, birth_day).years
+'''if (today.month, today.day) < (birth_day.month, birth_day.day):
     user_age = today.year - birth_day.year - 1
 else:
-    user_age = today.year - birth_day.year
+    user_age = today.year - birth_day.year'''
 
 weekdays_in_dutch = {0: 'mandaag', 1: 'dinsdag', 2: 'woensdag', 3: 'donderdag',
                      4: 'vrijdag', 5: 'zaterdag', 6: 'zondag'}
@@ -58,5 +80,3 @@ print(f'u bent 18 jaar op {date_18.strftime("%d")} {months_in_dutch[date_18.strf
 
 print(f'u mag op pensioen gaan op {date_of_pension.strftime("%d")} {months_in_dutch[date_of_pension.strftime("%B")]} \
 {date_of_pension.strftime("%Y")}')
-
-
