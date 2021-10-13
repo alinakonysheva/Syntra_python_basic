@@ -1,3 +1,4 @@
+from random import sample
 # Maak een lotto spel. Vraag de gebruiker om 6 getallen en druk dan af als hij de winnende combinatie heeft
 # output
 # --- Lotto ---
@@ -7,9 +8,9 @@
 # - De winnende combinatie is : [4, 7, 15, 17, 25, 30] - we gaan nu kijken als u gewonnen heeft
 # U heeft 1 correct cijfers
 # U heeft de volgende cijfers correct: [4]
-while True:
-    from random import sample
+# лучше делать условие вместо while , sys.exit -- лучше использовать, вместо break, break как ручные тормоза
 
+while True:
     header = '--- Lotto ---'
     rules_of_lotto = ''
     range_lotto_min = 1
@@ -22,7 +23,7 @@ while True:
         print('de grotte van de lottokaart moet kleiner zijn dan de reeks getallen die bij het spel betrokken zijn')
 
     print(f'{header:>20}\n --- kies uw {size_of_lottofield} cijfers --- \n \
-    Cijfers moeten tussen {range_lotto_min} en {range_lotto_max} zijn')
+Cijfers moeten tussen {range_lotto_min} en {range_lotto_max} zijn')
 
     user_combination = []
 

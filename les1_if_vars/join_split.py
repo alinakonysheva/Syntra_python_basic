@@ -32,3 +32,9 @@ mult_in_num = sot * dec * ed
 print(summ_in_num, mult_in_num)
 '''
 
+text = 'asdfhglsf 6 sdlfhasdfhds6 sadfjadfadfjgadfkgvsadf, dfjgawefkw, sdfjhadksfjg, s'
+list_of_text = text.split(' ')
+
+second_text = 'cru'.join(list_of_text)
+
+print(second_text)
