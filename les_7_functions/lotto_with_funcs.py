@@ -10,31 +10,37 @@ from random import sample
 # U heeft de volgende cijfers correct: [4]
 # лучше делать условие вместо while , sys.exit -- лучше использовать, вместо break, break как ручные тормоза
 
-while True:
-    header = '--- Lotto ---'
-    rules_of_lotto = ''
-    range_lotto_min = 1
-    range_lotto_max = 50
-    size_of_lottofield = 6
-    # random.sample Return a k length list of unique elements chosen from the population sequence.
+
+
+header = '--- Lotto ---'
+rules_of_lotto = ''
+range_lotto_min = 1
+range_lotto_max = 50
+size_of_lottofield = 6
+
+
+def creation_of_win_combination(range_lotto_min_, range_lotto_max_, size_of_lottofield_):
     try:
-        win_combination = sample(range(range_lotto_min, range_lotto_max), size_of_lottofield)
+        win_combination = sample(range(range_lotto_min_, range_lotto_max_), size_of_lottofield_)
     except ValueError:
         print('de grotte van de lottokaart moet kleiner zijn dan de reeks getallen die bij het spel betrokken zijn')
 
-    print(f'{header:>20}\n --- kies uw {size_of_lottofield} cijfers --- \n \
-Cijfers moeten tussen {range_lotto_min} en {range_lotto_max} zijn')
+    print(f'{header:>20}\n --- kies uw {size_of_lottofield_} cijfers --- \n \
+Cijfers moeten tussen {range_lotto_min_} en {range_lotto_max_} zijn')
+    return win_combination
 
+
+def get_user_combination(size_of_lottofield_, range_lotto_min_,range_lotto_max_):
     user_combination = []
 
-    for guess in range(size_of_lottofield):
+    for guess in range(size_of_lottofield_):
         while True:
             try:
                 user_number = int(input(f'Uw huidige lotto kaart -- {user_combination}. \n Geef een getal op (getal {guess + 1}) -- '))
-                if user_number > range_lotto_max:
-                    print(f'Uw getal is groter dan {range_lotto_max}')
-                elif user_number < range_lotto_min:
-                    print(f'Uw getal is minder dan {range_lotto_min}')
+                if user_number > range_lotto_max_:
+                    print(f'Uw getal is groter dan {range_lotto_max_}')
+                elif user_number < range_lotto_min_:
+                    print(f'Uw getal is minder dan {range_lotto_min_}')
                 elif user_number in user_combination:
                     print(f'Uw getal staat al op uw lotto card')
                 else:
@@ -42,8 +48,9 @@ Cijfers moeten tussen {range_lotto_min} en {range_lotto_max} zijn')
             except ValueError:
                 print('dat moet een getal zijn')
         user_combination.append(user_number)
+        return user_combination
 
-    # print(f'{user_combination}')
+    win_combination = creation_of_win_combination(range_lotto_min, range_lotto_max, size_of_lottofield)
 
     print(f'De winnende combinatie is : {win_combination}')
 
@@ -54,8 +61,3 @@ Cijfers moeten tussen {range_lotto_min} en {range_lotto_max} zijn')
     if len(lucky_numbers):
         print(f'U heeft de volgende cijfers correct: {lucky_numbers}')
 
-    quit_lotto = input('Zou u graag nog één keer spelen? Als ja,\
- druk gewoon \'enter\', als nee -- druk een letter of een cijfer  ')
-
-    if quit_lotto:
-        break
