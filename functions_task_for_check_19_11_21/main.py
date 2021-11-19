@@ -1,5 +1,6 @@
-from constants_assortiment import catalog
+from constants_assortiment import catalog, amount_purchases_per_session
 from classes_item_session import SellSession
+
 
 # Maak een “kassa” systeem voor F1 merchandising (in te dienen tegen 22/11)
 #
@@ -18,30 +19,95 @@ from classes_item_session import SellSession
 # Mercedes petje
 # De totale verkoopprijs was 290 euro
 
-print(catalog)
+def print_catalog(catalog_: dict):
+    print('-' * 45)
+    print('Welkom bij onze winkel!')
+    print('Vandaag kunnen we u het volgende aanbieden:')
+    print(f'Nummer  |    Product    |     Prijs')
+    print('-' * 45)
+    for k, v in catalog_.items():
+        print(f'{k}.{v.brand} {v.item_type}{v.price} euro')
 
 
-def get_input():
-    pass
+def get_input(text: str, conversion_type: int = 0) -> any:
+    """
+        get input and convert
+    Returns:
+        any: int or str, depending on conversion type
+        :param
+        text ([str]): text to use in the display string for input
+        conversion_type (int, optional): convert or not. Defaults to 0.
+            0 = default -> convert to string (not needed)
+            1 = integer -> convert to integer
+    """
+
+    try:
+        inp = input(f'Geef, astublieft, {text}: ')
+        if conversion_type == 1:
+            result = int(inp)
+        else:
+            result = inp
+    except Exception as e:
+        print('Voer alstublieft een cijfer in')
+        result = 0
+
+    return result
 
 
-def output():
-    pass
+def create_sell_session() -> SellSession:
+    """create  a SellSession object
+
+    Returns:
+        SellSession: return a SellSession object
+    """
+    session = SellSession()
+
+    amount_purchases = 0
+
+    while amount_purchases < amount_purchases_per_session:
+        users_choice = get_input('het nummer van het geselecteerde product', 1)
+        user_quantity = get_input('hoeveelheid van het geselecteerde product', 1)
+        user_options = catalog.keys()
+        if users_choice in user_options:
+            session.add_purchase(users_choice, user_quantity)
+            amount_purchases += 1
+        else:
+            print(f'Sorry, we hebben maar {max(user_options)} artikelen in ons assortiment.')
+
+    return session
+
+
+def do_output(session: SellSession):
+    if session:
+        print('-' * 45)
+        print('Uw verkopen vandaag:')
+        bougt_items = session.products.keys()
+        for k in catalog.keys():
+            if k in bougt_items:
+                print(f'{catalog[k].brand} {catalog[k].item_type}: {session.products[k]}x gekocht')
+            else:
+                print(f'{catalog[k].brand} {catalog[k].item_type}: niet verkocht')
+
+        print('Het best verkopende product was:')
+        for k in session.most_popular().keys():
+            print(f'{catalog[k].brand} {catalog[k].item_type}')
+
+        total_receipts = 0
+
+        for k, v in session.products.items():
+            total_receipts += v * catalog[k].price
+
+        print(f'De totale verkoopprijs was {total_receipts} euro')
+
+
+    else:
+        print('session was not created')
 
 
 def do_run():
-    pass
+    print_catalog(catalog)
+    session = create_sell_session()
+    do_output(session)
 
 
 do_run()
-
-session = SellSession()
-for i in range(3):
-    users_choice = int(input('What do you want? item_id ->  '))
-    user_quantity = int(input('how many do you want? item_id ->  '))
-
-    session.add_purchase(users_choice, user_quantity)
-
-print(session.products)
-print(session.most_popular())
-print(session.least_popular())

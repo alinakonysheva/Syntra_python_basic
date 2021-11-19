@@ -52,7 +52,7 @@ class SellSession:
         else:
             self.products[item_id] = amount
 
-    def get_total(self):
+    def get_total_products(self):
         return self.products
 
     def most_popular(self):
@@ -65,3 +65,5 @@ class SellSession:
         agg_sold = agg_func(self.products.values())
         popular = {k: v for k, v in self.products.items() if v == agg_sold}
         return popular
+
+

@@ -92,21 +92,20 @@ class Person():
         self.__birthday = datetime(birth_year, birth_month, birth_day)
 
 
-def get_input(text: str, conversion_type : int = 0) -> any:
+def get_input(text: str, conversion_type: int = 0) -> any:
     """
         get input and convert
-    Args:
-        text ([str]): text to use in the display string for input
-        restype (int, optional): convert or not. Defaults to 0.
-            0 = default -> convert to string (not needed)
-            1 = integer -> convert to integer 
-
     Returns:
         any: int or str, depending on conversion type
+        :param
+        text ([str]): text to use in the display string for input
+        conversion_type (int, optional): convert or not. Defaults to 0.
+            0 = default -> convert to string (not needed)
+            1 = integer -> convert to integer
     """
-    result = None
+
     try:
-        inp = input('Geef uw {}: '.format(text))
+        inp = input(f'Geef uw {text}: ')
         if conversion_type == 1:
             result = int(inp)
         else:
