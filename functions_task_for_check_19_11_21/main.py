@@ -1,4 +1,4 @@
-from constants_assortiment import catalog, amount_purchases_per_session
+from constants_assortiment import catalog, amount_purchases_per_session, number_header, product_header, price_header
 from classes_item_session import SellSession
 
 
@@ -20,13 +20,18 @@ from classes_item_session import SellSession
 # De totale verkoopprijs was 290 euro
 
 def print_catalog(catalog_: dict):
+    """
+    to print a catalog of the shop
+    :param catalog_: dict {id: item}, where item = Item()
+    :print dict catalog
+    """
     print('-' * 45)
     print('Welkom bij onze winkel!')
     print('Vandaag kunnen we u het volgende aanbieden:')
-    print(f'Nummer  |    Product    |     Prijs')
+    print(f'{number_header:<15}{product_header:<15}{price_header:<15}')
     print('-' * 45)
     for k, v in catalog_.items():
-        print(f'{k}.{v.brand} {v.item_type}{v.price} euro')
+        print(f'{k:<15}{v.brand}{v.item_type :<15}{v.price:<5}')
 
 
 def get_input(text: str, conversion_type: int = 0) -> any:
@@ -78,6 +83,14 @@ def create_sell_session() -> SellSession:
 
 
 def do_output(session: SellSession):
+    """
+    to print a result
+    :param session: session which is an instance of SellSession
+    :print: 0 what was bought during one  sell session,
+     1 which one of the products was the most bought product,
+     2 total receipts, session earnings (the quantity of the product 1 multiplied by its price + for the product 2
+      + ... + for the product N)
+    """
     if session:
         print('-' * 45)
         print('Uw verkopen vandaag:')
@@ -99,15 +112,15 @@ def do_output(session: SellSession):
 
         print(f'De totale verkoopprijs was {total_receipts} euro')
 
-
     else:
         print('session was not created')
 
 
-def do_run():
+def main():
     print_catalog(catalog)
     session = create_sell_session()
     do_output(session)
 
 
-do_run()
+if __name__ == '__main__':
+    main()

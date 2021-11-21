@@ -2,13 +2,11 @@ class Item:
     __brand = ''
     __item_type = ''
     __price = 0.00
-    __sold = 0
 
-    def __init__(self, brand, item_type, price, sold):
+    def __init__(self, brand, item_type, price):
         self.__brand = brand
         self.__item_type = item_type
         self.__price = price
-        self.__sold = sold
 
     @property
     def brand(self):
@@ -34,14 +32,6 @@ class Item:
     def price(self, value):
         self.__price = value
 
-    @property
-    def sold(self):
-        return self.__sold
-
-    @sold.setter
-    def sold(self, value):
-        self.__sold = value
-
 
 class SellSession:
     products = dict()
@@ -65,5 +55,3 @@ class SellSession:
         agg_sold = agg_func(self.products.values())
         popular = {k: v for k, v in self.products.items() if v == agg_sold}
         return popular
-
-
