@@ -25,13 +25,14 @@ def print_catalog(catalog_: dict):
     :param catalog_: dict {id: item}, where item = Item()
     :print dict catalog
     """
-    print('-' * 45)
-    print('Welkom bij onze winkel!')
-    print('Vandaag kunnen we u het volgende aanbieden:')
-    print(f'{number_header:<15}{product_header:<15}{price_header:<15}')
-    print('-' * 45)
+    print(f'{"Welkom bij onze winkel!":^45s}')
+    print(f'{"=" * 45}')
+    print(f'{"Vandaag kunnen we u het volgende aanbieden":^45s}')
+    print(f'{number_header}\t\t{product_header}\t\t\t{price_header:>10}€')
     for k, v in catalog_.items():
-        print(f'{k:<15}{v.brand}{v.item_type :<15}{v.price:<5}')
+        print(f'{k}\t\t{v.brand}{v.item_type}\t\t\t{v.price:>10}€')
+
+    print('-' * 45)
 
 
 def get_input(text: str, conversion_type: int = 0) -> any:

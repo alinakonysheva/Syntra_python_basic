@@ -45,13 +45,13 @@ class SellSession:
     def get_total_products(self):
         return self.products
 
+    def popular(self, agg_func):
+        agg_sold = agg_func(self.products.values())
+        popular = {k: v for k, v in self.products.items() if v == agg_sold}
+        return popular
+
     def most_popular(self):
         return self.popular(max)
 
     def least_popular(self):
         return self.popular(min)
-
-    def popular(self, agg_func):
-        agg_sold = agg_func(self.products.values())
-        popular = {k: v for k, v in self.products.items() if v == agg_sold}
-        return popular

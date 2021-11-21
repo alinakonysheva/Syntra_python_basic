@@ -18,5 +18,5 @@ amount_purchases_per_session = 10
 # format
 number_header = 'Nummer'
 product_header = 'Product'
-price_header = 'Prijs, euro'
+price_header = 'Prijs'
 
