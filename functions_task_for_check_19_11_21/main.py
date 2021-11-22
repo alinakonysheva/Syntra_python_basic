@@ -28,9 +28,9 @@ def print_catalog(catalog_: dict):
     print(f'{"Welkom bij onze winkel!":^45s}')
     print(f'{"=" * 45}')
     print(f'{"Vandaag kunnen we u het volgende aanbieden":^45s}')
-    print(f'{number_header}\t\t{product_header}\t\t\t{price_header:>10}€')
+    print(f'{number_header}\t\t{product_header}\t\t\t{price_header:>5}€')
     for k, v in catalog_.items():
-        print(f'{k}\t\t{v.brand}{v.item_type}\t\t\t{v.price:>10}€')
+        print(f'{k}\t\t{v.brand} {v.item_type}\t\t\t{v.price:>5}€')
 
     print('-' * 45)
 
