@@ -14,7 +14,12 @@ C_SET_ALPHABET_BIG_LETTERS = {'D', 'T', 'W', 'E', 'R', 'A', 'P', 'V', 'K', 'H', 
                               'J', 'O', 'X', 'I', 'F', 'Q', 'S', 'B', 'C', 'Y', 'M', 'Z', 'U', 'N', 'G'}
 
 
-def is_containing_all_letters(text: str):
+def is_containing_all_letters(text: str) -> str:
+    """
+
+    :param text: string that will be checked for all letters of alphabet
+    :return: text
+    """
     origin_text = text
     if len(text) < 26:
         return 'Nee', 'lijn is te kort'

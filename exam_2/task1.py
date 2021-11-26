@@ -20,3 +20,57 @@
 # De gebruiker mag slechts 5x een verkeerde waarde ingeven bij de leeftijd anders stopt het
 # programma. Geef een foutmelding dan “U heeft 5 pogingen gehad om een correcte leeftijd in te
 # geven, het programma stopt nu”. Gebruik hiervoor een recursieve functie en geen loop !
+
+C_AGE_18 = 18
+C_AGE_PENSION = 65
+C_ATTEMPTS = 5
+C_OUTPUT_HALLO = 'Hallo'
+C_OUTPUT_UBENT = 'u bent'
+C_OUTPUT_JAAR = 'jaar'
+
+
+def get_input():
+    """
+    :return: 0 if user gave correct information, 1 -- if his/her attempt to input information failed
+    """
+    age = input('Uw leeftijd: ')
+    try:
+        age = int(age)
+        name = input('Uw naam: ')
+        if age < C_AGE_18:
+            print(f'{C_OUTPUT_HALLO} {name}, {C_OUTPUT_UBENT} {age} {C_OUTPUT_JAAR}')
+            print('U bent minderjarig')
+
+        else:
+            license_ = input('Als u een rijbewijs heeft, druk \'y\', als geen rijbewijs, druk \'n\' ')
+
+            if age >= C_AGE_PENSION:
+                print(f'{C_OUTPUT_HALLO}{name}, {C_OUTPUT_UBENT} {age} {C_OUTPUT_JAAR}')
+                print('U bent meerderjarig en gepensioneerd')
+            else:
+                print(f'{C_OUTPUT_HALLO}{name}, {C_OUTPUT_UBENT} {age} {C_OUTPUT_JAAR}')
+                print('U bent meerderjarig')
+            if license_.strip().lower() == 'y':
+                print('U heeft een rijbewijs')
+            else:
+                print('U heeft geen rijbewijs')
+        return 0
+    except:
+        print('Uw leftijd moet een cijfer zijn')
+        return 1
+
+
+def start_rec(failed_attempts=0):
+    """
+
+    :param failed_attempts:
+    :return: self up to 5 attempts
+    """
+    if failed_attempts == C_ATTEMPTS:
+        print(f"U heeft {C_ATTEMPTS} pogingen gehad om een correcte leeftijd in te geven, het programma stopt nu")
+    else:
+        result = get_input()
+        start_rec(failed_attempts + result)
+
+
+start_rec(0)
