@@ -18,6 +18,8 @@ C_SECOND_LINE = 'De tweede lijn bevat'
 C_THIRD_LINE = 'De derde lijn bevat'
 C_FORTH_LINE = 'De virde lijn bevat'
 
+dict_output_lines = {1: C_FIRST_LINE, 2: C_SECOND_LINE, 3: C_THIRD_LINE, 4: C_FORTH_LINE}
+
 
 def get_lines(number_lines) -> list:
     """
@@ -63,18 +65,8 @@ def do_run():
         if is_containing_all_letters(value)[1] == 'lijn is te kort':
             print(f'{count} -- {is_containing_all_letters(value)[0]}\n{is_containing_all_letters(value)[1]}')
         else:
-            if count == 1:
-                print(
-                    f'{count} -- {is_containing_all_letters(value)[0]}\n{C_FIRST_LINE} {is_containing_all_letters(value)[1]} {is_containing_all_letters(value)[2]}')
-            if count == 2:
-                print(
-                    f'{count} -- {is_containing_all_letters(value)[0]}\n{C_SECOND_LINE} {is_containing_all_letters(value)[1]} {is_containing_all_letters(value)[2]}')
-            if count == 3:
-                print(
-                    f'{count} -- {is_containing_all_letters(value)[0]}\n{C_THIRD_LINE} {is_containing_all_letters(value)[1]} {is_containing_all_letters(value)[2]}')
-            if count == 4:
-                print(
-                    f'{count} -- {is_containing_all_letters(value)[0]}\n{C_FORTH_LINE} {is_containing_all_letters(value)[1]} {is_containing_all_letters(value)[2]}')
+            print(
+                f'{count} -- {is_containing_all_letters(value)[0]}\n{dict_output_lines[count]} {is_containing_all_letters(value)[1]} {is_containing_all_letters(value)[2]}')
 
 
 do_run()
