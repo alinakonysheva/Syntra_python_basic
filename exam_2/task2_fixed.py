@@ -13,10 +13,10 @@ C_NUMBER_LINES = 3
 C_SET_ALPHABET_BIG_LETTERS = {'D', 'T', 'W', 'E', 'R', 'A', 'P', 'V', 'K', 'H', 'L',
                               'J', 'O', 'X', 'I', 'F', 'Q', 'S', 'B', 'C', 'Y', 'M', 'Z', 'U', 'N', 'G'}
 
-C_FIRST_LINE = 'De eerste lijn bevat'
-C_SECOND_LINE = 'De tweede lijn bevat'
-C_THIRD_LINE = 'De derde lijn bevat'
-C_FORTH_LINE = 'De virde lijn bevat'
+C_FIRST_LINE = 'eerste'
+C_SECOND_LINE = 'tweede'
+C_THIRD_LINE = 'derde'
+C_FORTH_LINE = 'virde'
 
 dict_output_lines = {1: C_FIRST_LINE, 2: C_SECOND_LINE, 3: C_THIRD_LINE, 4: C_FORTH_LINE}
 
@@ -34,11 +34,11 @@ def get_lines(number_lines) -> list:
     return lines
 
 
-def is_containing_all_letters(text: str) -> str:
+def is_containing_all_letters(text: str) -> any:
     """
-    to check
+    to check of the line in text has all letters of abc
     :param text: string that will be checked for all letters of alphabet
-    :return: text
+    :return: tuple or string
     """
     origin_text = text
     if len(text) < 26:
@@ -60,13 +60,18 @@ def is_containing_all_letters(text: str) -> str:
 
 
 def do_run():
+    """
+    to run the file
+    :return:
+    """
     text_from_user = get_lines(C_NUMBER_LINES)
     for count, value in enumerate(text_from_user, start=1):
         if is_containing_all_letters(value)[1] == 'lijn is te kort':
             print(f'{count} -- {is_containing_all_letters(value)[0]}\n{is_containing_all_letters(value)[1]}')
         else:
             print(
-                f'{count} -- {is_containing_all_letters(value)[0]}\n{dict_output_lines[count]} {is_containing_all_letters(value)[1]} {is_containing_all_letters(value)[2]}')
+                f"{count} -- {is_containing_all_letters(value)[0]}\n De {dict_output_lines[count]} lijn bevat "\
+                f"{is_containing_all_letters(value)[1]} {is_containing_all_letters(value)[2]}")
 
 
 do_run()
