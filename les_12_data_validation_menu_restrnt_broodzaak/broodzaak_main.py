@@ -4,9 +4,9 @@
 # ei (0,35€), wortel (0,45€), maïs (0,45€). Bereken dan de totaalprijs van het broodje en druk dan ook het “recutje”
 # met de prijs/beleg/toppings af
 
-from broodzaak_constants import number_header, product_header, price_header, assortment_bread, assortment_stuffing,\
-assortment_topping
-
+from broodzaak_constants import number_header, product_header, price_header, assortment_bread, assortment_stuffing, \
+    assortment_topping, quit_symbol
+from broodzaak_classes import Bun
 
 
 def print_catalog(catalog_: dict):
@@ -16,9 +16,9 @@ def print_catalog(catalog_: dict):
     :print dict catalog
     """
 
-    print(f'{number_header}\t\t{product_header}\t\t\t{price_header:>5}€')
+    print(f'{number_header}\t\t{product_header:<20}{price_header}')
     for k, v in catalog_.items():
-        print(f'{k}\t\t{v.name}\t\t\t{v.price:>5}€')
+        print(f'{k}\t\t\t{v.name:<20}{v.price}€')
 
     print('-' * 45)
 
@@ -48,67 +48,89 @@ def get_input(text: str, conversion_type: int = 0) -> any:
     return result
 
 
-def create_sell_session() -> SellSession:
-    """create  a SellSession object
-
+def create_bun() -> Bun:
+    """create  a Bun object
     Returns:
-        SellSession: return a SellSession object
+        Bun: return a Bun object
     """
-    session = SellSession()
+    bun = Bun('')
+    print_catalog(assortment_bread)
+    users_choice_bread = get_input('het nummer van het geselecteerde soort van brood', 1)
+    user_options = assortment_bread.keys()
+    if users_choice_bread in user_options:
+        bun.add_bread_type(assortment_bread[users_choice_bread])
+    else:
+        print(f'Sorry, we hebben maar {max(user_options)} artikelen in ons assortiment.')
 
-    amount_purchases = 0
-
-    while amount_purchases < amount_purchases_per_session:
-        users_choice = get_input('het nummer van het geselecteerde product', 1)
-        user_quantity = get_input('hoeveelheid van het geselecteerde product', 1)
-        user_options = catalog.keys()
-        if users_choice in user_options:
-            session.add_purchase(users_choice, user_quantity)
-            amount_purchases += 1
+    print_catalog(assortment_stuffing)
+    users_quit = ''
+    while users_quit != quit_symbol:
+        users_choice_stuffing = get_input(f'het nummer van het geselecteerde soort van stuffing: ', 1)
+        user_options = assortment_stuffing.keys()
+        if users_choice_stuffing in user_options:
+            bun.add_stuffing(assortment_stuffing[users_choice_stuffing])
         else:
             print(f'Sorry, we hebben maar {max(user_options)} artikelen in ons assortiment.')
+        users_quit = (input('als u geen beleg meer nodig heeft, druk \'n\'')).strip().lower()
+    print_catalog(assortment_topping)
+    users_quit = ''
+    while users_quit != quit_symbol:
+        users_choice_topping = get_input(f'het nummer van het geselecteerde soort van topping: ', 1)
+        user_options = assortment_topping.keys()
+        if users_choice_topping in user_options:
+            bun.add_topping(assortment_topping[users_choice_topping])
+        else:
+            print(f'Sorry, we hebben maar {max(user_options)} artikelen in ons assortiment.')
+        users_quit = (input('als u geen topping meer nodig heeft, druk \'n\' ')).strip().lower()
 
-    return session
+    return bun
 
 
-def do_output(session: SellSession):
+def calculate_purchase(bun: Bun):
+    """
+    to calculate a whole price for the purchase
+    :param bun, instance of a class Bun
+    :return: total amount of money for the bun
+    """
+    purchase = 0
+    if bun:
+        purchase += bun.bread_type.price
+
+        for i in range(len(bun.stuffing)):
+            purchase += bun.stuffing[i].price
+
+        for i in range(len(bun.topping)):
+            purchase += bun.topping[i].price
+
+    return purchase
+
+
+def do_output(bun: Bun):
     """
     to print a result
-    :param session: session which is an instance of SellSession
-    :print: 0 what was bought during one  sell session,
-     1 which one of the products was the most bought product,
-     2 total receipts, session earnings (the quantity of the product 1 multiplied by its price + for the product 2
-      + ... + for the product N)
+    :param bun: is an instance of Bun
+    :print: what was chosen and the total price of a bun
     """
-    if session:
+    if bun:
         print('-' * 45)
-        print('Uw verkopen vandaag:')
-        bougt_items = session.products.keys()
-        for k in catalog.keys():
-            if k in bougt_items:
-                print(f'{catalog[k].brand} {catalog[k].item_type}: {session.products[k]}x gekocht')
-            else:
-                print(f'{catalog[k].brand} {catalog[k].item_type}: niet verkocht')
-
-        print('Het best verkopende product was:')
-        for k in session.most_popular().keys():
-            print(f'{catalog[k].brand} {catalog[k].item_type}')
-
-        total_receipts = 0
-
-        for k, v in session.products.items():
-            total_receipts += v * catalog[k].price
-
-        print(f'De totale verkoopprijs was {total_receipts} euro')
-
+        print(f'Uw broodje bestaat uit:\nGekozen brood: {bun.bread_type.name}')
+        print(f'Uw beleg: ')
+        for i in range(len(bun.stuffing)):
+            print(bun.stuffing[i].name, end=' ')
+        print()
+        print(f'Uw toppings:')
+        for i in range(len(bun.topping)):
+            print(bun.topping[i].name, end=' ')
+        print()
+        print('-' * 45)
+        print(f'De totale verkoopprijs was {calculate_purchase(bun)} euro')
     else:
-        print('session was not created')
+        print('bun was not created')
 
 
 def main():
-    print_catalog(catalog)
-    session = create_sell_session()
-    do_output(session)
+    bun = create_bun()
+    do_output(bun)
 
 
 if __name__ == '__main__':

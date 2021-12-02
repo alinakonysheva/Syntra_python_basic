@@ -29,6 +29,9 @@ class Ingredient:
     def price(self, value):
         self.__price = value
 
+    def __str__(self):
+        return f'{self.__name}, {self.__price}'
+
 
 class Bread(Ingredient):
 
@@ -38,18 +41,18 @@ class Bread(Ingredient):
 
 class Stuffing(Ingredient):
 
-    def __init__(self, name):
-        super().__init__(self)
+    def __init__(self, name, price):
+        super().__init__(name, price)
 
 
 class Topping(Ingredient):
 
-    def __init__(self):
-        super().__init__(self, super.name, super.price)
+    def __init__(self, name, price):
+        super().__init__(name, price)
 
 
 class Bun:
-    __bread_type = ''
+    __bread_type = None
     __stuffing = []
     __topping = []
 
@@ -81,7 +84,21 @@ class Bun:
         self.__topping = value
 
     def add_stuffing(self, value):
+        """
+        to add stuffing in a bun (of Bun)
+        :param value: type: Stuffing
+        """
         self.__stuffing.append(value)
 
     def add_topping(self, value):
-        self.__bread_type.append(value)
+        """
+        to add topping in a bun (of Bun)
+        :param value: type: Topping
+        """
+        self.__topping.append(value)
+
+    def add_bread_type(self, value):
+        self.__bread_type = value
+
+    def __str__(self):
+        return f'{self.__bread_type}, {self.__stuffing}, {self.__topping}'
