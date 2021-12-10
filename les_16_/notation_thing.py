@@ -1,18 +1,24 @@
+# Maak een programma dat een notitieblok is. Je kan dit zien als een online programma waarbij er meerdere gebruikers zijn.
+# Je vraagt de gegevens van de persoon, naam, email en geboortedatum.
+# Elke gebruiker heeft ook een interne id.
+# Maak hiervoor ook een testen en voorzie een export en import naar json. Als keys in de json file willen we id,
+# firstname, lastname, email, birthday, birthmonth, birthyear zien
+
 import json
 from datetime import date, datetime
 from inputs import get_input_item
-
+import re
+pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$'
 
 
 class Person:
     __name_first = ''
     __name_last = ''
     __birthdate = None
-    __sexe_type = 0
-    __address = None
+    __email = ''
+    __id = 0
 
-
-    def __init__(self, firstname: str, lastname: str, year: int, month: int, day: int, sexe_type:int=0):
+    def __init__(self, firstname: str, lastname: str, year: int, month: int, day: int, email: str):
         """constructor
 
         Args:
@@ -21,16 +27,17 @@ class Person:
             year (int): year of birth
             month (int): month of birth
             day (int): day of birth
+            email(str): email of a person
+            id - inner unique identifier of a person
         """
         self.firstname = firstname
         self.lastname = lastname
         self.set_birthday(year, month, day)
-        self.__address = create_adress()
-        self.__sexe_type = sexe_type
+        self.__email = email
+        Person.__id += 1
 
     def __str__(self):
-        return '{} - {}/{}/{} - {}'.format(self.name, self.birthdate.day,
-                                      self.birthdate.month, self.birthdate.year, self.age)
+        return f'{self.name} - {self.birthdate.day}/{self.birthdate.month}/{self.birthdate.year} - {self.email} - {self.id}'
 
     @property
     def name(self) -> str:
@@ -39,12 +46,11 @@ class Person:
     @property
     def firstname(self):
         return self.__name_first
-    
 
     @firstname.setter
     def firstname(self, value: str):
         self.__name_first = value
-    
+
     @property
     def lastname(self):
         return self.__name_last
@@ -52,17 +58,15 @@ class Person:
     @lastname.setter
     def lastname(self, value: str):
         self.__name_last = value
-        
-    
+
     @property
     def birthdate(self) -> date:
         """property birthdate
         Returns:
             date: returns birthdate as date
         """
-        return date(self.__birthdate.year, self.__birthdate.month, self.__birthdate.day) 
+        return date(self.__birthdate.year, self.__birthdate.month, self.__birthdate.day)
 
-    
     def set_birthday(self, year: int, month: int, day: int):
         """set the birthday through its own parts
         Args:
@@ -84,43 +88,21 @@ class Person:
 
         if (day < 0 or day > 31):
             raise ValueError('birthday is not in the correct range (1 -> 31')
-        
+
         self.__birthdate = date(year, month, day)
 
-    
     @property
-    def age(self):
-        if self.birthdate is None:
-            return 0
-        else:
-            return datetime.now().year - self.birthdate.year 
+    def email(self):
+        return self.__email
 
-    @property
-    def address(self):
-        if self.__address is None:
-            self.__address = create_adress()
-        return self.__address
-
-    '''
-    @address.setter
-    def address(self, value : Address):
-        if value is not None and type(value) == Address:
-        # isinstance(value, Address)
-            self.__address = value
-        else:
-            raise TypeError('setter value is not of type Address')
-        """
-        try:
-            self.__address = Address(value)
-        except:
-            raise TypeError('setter value is not of type Address')
-        """
-    '''
-
+    @email.setter
+    def email(self, value: str):
+        # проверку регуляркой что это email
+        self.__email = value
 
     @property
-    def sexe(self):
-        return sexe_types[self.__sexe_type]
+    def id(self):
+        return self.__id
 
     @property
     def to_dict(self) -> dict:
@@ -130,8 +112,8 @@ class Person:
             birth_day=self.birthdate.day,
             birth_month=self.birthdate.month,
             birth_year=self.birthdate.year,
-            sexe=self.sexe,
-            address=self.address.to_dict        
+            email=self.email,
+            id=self.id
         )
 
     @property
@@ -145,15 +127,15 @@ class Person:
         birth_month = value["birth_month"]
         birth_year = value["birth_year"]
         self.set_birthday(birth_year, birth_month, birth_day)
-        self.address.from_dict(value["address"])
+        self.email = value["email"]
+        self.id = value["id"]
 
     def from_json(self, value):
         d = json.loads(value)
         self.from_dict(d)
-    
 
 
-def create_person(firstname: str, lastname: str, year: int, month: int, day: int, sexe_type:int=0) -> Person:
+def create_person(firstname: str, lastname: str, year: int, month: int, day: int, email: str) -> Person:
     """firstname
         create a, lastname: str person based on his
          attributes
@@ -163,19 +145,20 @@ def create_person(firstname: str, lastname: str, year: int, month: int, day: int
         year (int): birth year of the person
         month (int): birth month
         day (int): birth day
+        email: email of a the person
 
     Returns:
         Person: a fully working person object
     """
-    return Person(firstname, lastname, year, month, day, sexe_type)
+    return Person(firstname, lastname, year, month, day, email)
 
 
 def get_person() -> Person:
     firstname = get_input_item('Geef uw voornaam: ')
-    lastname = get_input_item('Geef uw familienaam: ')    
+    lastname = get_input_item('Geef uw familienaam: ')
     day = get_input_item('Geef uw geboortedag: ', 1)
     month = get_input_item('Geef uw geboortemaand: ', 1)
     year = get_input_item('Geef uw geboortejaar: ', 1)
+    email = get_input_item('Geef uw email: ')
 
-    return create_person(firstname, lastname, year, month, day)
-
+    return create_person(firstname, lastname, year, month, day, email)

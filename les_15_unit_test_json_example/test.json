@@ -1,0 +1,15 @@
+{
+    "firstname": "Kristof",
+    "lastname": "Degros",
+    "birth_day": 2,
+    "birth_month": 9,
+    "birth_year": 1979,
+    "sexe": "unknown",
+    "address": {
+        "street": "Mortelstraat",
+        "nr": "72",
+        "zip": "3150",
+        "city": "Tildonk",
+        "country": "BE"
+    }
+}

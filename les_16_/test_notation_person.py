@@ -12,17 +12,18 @@ C_BIRTHDATE = date(1979, 9, 2)
 C_AGE = datetime.now().year - C_BIRTHDATE.year
 C_SEXE_TYPE = 1
 C_SEXE = 'm'
+
+
 # C_AGE = 42
 
 class TestPerson(unittest.TestCase):
-    
+
     def setUp(self) -> None:
-        p = Person(C_FIRSTNAME, C_LASTNAME, C_BIRTHYEAR, C_BIRTHMONTH, C_BIRTHDAY, C_SEXE_TYPE)       
+        p = Person(C_FIRSTNAME, C_LASTNAME, C_BIRTHYEAR, C_BIRTHMONTH, C_BIRTHDAY, C_SEXE_TYPE)
         self.person = p
-    
+
     def test_name(self):
         self.assertEqual(self.person.name, C_FULLNAME)
-
 
     def test_firstname(self):
         self.assertEqual(self.person.firstname, C_FIRSTNAME)
@@ -30,31 +31,27 @@ class TestPerson(unittest.TestCase):
         self.person.firstname = mytest
         self.assertEqual(self.person.firstname, mytest)
 
-
     def test_lastname(self):
         self.assertEqual(self.person.lastname, C_LASTNAME)
         mytest = 'testing'
         self.person.lastname = mytest
         self.assertEqual(self.person.lastname, mytest)
 
-
     def test_birthday_type(self):
         self.assertEqual(type(self.person.birthdate), date)
 
-
     def test_birthday(self):
         self.assertEqual(self.person.birthdate, C_BIRTHDATE)
-
 
     def test_age(self):
         self.assertEqual(self.person.age, C_AGE)
 
     def test_sexe(self):
         self.assertEqual(self.person.sexe, C_SEXE)
-    
+
     def test_sexe_default(self):
         p = Person(C_FIRSTNAME, C_LASTNAME, C_BIRTHYEAR, C_BIRTHMONTH, C_BIRTHDAY)
-        self.assertEqual(p.sexe, 'unknown')   
+        self.assertEqual(p.sexe, 'unknown')
 
     def test_address_is_not_empty(self):
         self.assertIsNotNone(self.person.address)
@@ -74,7 +71,6 @@ class TestPerson(unittest.TestCase):
         self.assertRaises(ValueError, self.person.set_birthday, 1950, 2, -25)
         self.assertRaises(ValueError, self.person.set_birthday, 1950, 2, 35)
 
-
     def test_create_person(self):
         p = create_person(C_FIRSTNAME, C_LASTNAME, C_BIRTHYEAR, C_BIRTHMONTH, C_BIRTHDAY)
         self.assertEqual(self.person.lastname, p.lastname)
@@ -93,7 +89,6 @@ class TestPerson(unittest.TestCase):
         self.assertEqual(self.person.birthdate.day, C_BIRTHDAY)
         self.assertEqual(self.person.birthdate.month, C_BIRTHMONTH)
         self.assertEqual(self.person.birthdate.year, C_BIRTHYEAR)
-        
 
     '''
     def test_get_input(self):
@@ -105,7 +100,7 @@ class TestPerson(unittest.TestCase):
         self.assertEqual(self.person.birthdate.month, p.birthdate.month)
         self.assertEqual(self.person.birthdate.day, p.birthdate.day)
         self.assertEqual(self.person.age, p.age)
-    '''         
+    '''
 
 
 if __name__ == '__main__':

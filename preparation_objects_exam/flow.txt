@@ -1,0 +1,11 @@
+object maken
+unittest
+input vragen
+-> lijst van maken -> multiple inputs vragen
+
+-> menu tonen
+  -> keuze films -> lijst weergeven
+  -> toevoegen -> input vragen & toevoegen
+  -> stoppen
+
+

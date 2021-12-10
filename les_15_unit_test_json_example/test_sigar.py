@@ -1,47 +1,78 @@
 import unittest
-from sigar_class import Sigar
+from datetime import date, datetime
+from sigar import Sigar, create_sigar
 
-C_NAME = 'Cubo'
-C_COUNTRY = 'Cube'
-C_PRICE = 15.50
-C_LENGTH = 12.00
-C_TASTE = 'bough'
+
+C_NAME = 'Cohiba'
+C_PRICE = 2.3
+C_LENGTH = 15
+C_COUNTRY = 'Cuba'
+C_TYPE = 2
+C_UNKNOWN = 'unknown'
+C_MILD = 'bitter'
 
 
 class TestSigar(unittest.TestCase):
-
-    def setUp(self) -> None:
-        self.sigar = Sigar(C_NAME, C_COUNTRY, C_PRICE, C_LENGTH, C_TASTE)
-
-    def test_name(self):
+    
+    def setUp(self):
+        s = Sigar(C_NAME, C_LENGTH, C_PRICE, C_COUNTRY, C_TYPE)
+        self.sigar = s
+    
+    def test_sigar_name(self):
         self.assertEqual(self.sigar.name, C_NAME)
-        name_2 = 'testing'
-        self.sigar.name = name_2
-        self.assertEqual(self.sigar.name, name_2)
+        newname = 'test'
+        self.sigar.name = newname
+        self.assertEqual(self.sigar.name, newname)
+        
 
-    def test_country(self):
-        self.assertEqual(self.sigar.country, C_COUNTRY)
-        country_2 = 'testing'
-        self.sigar.country = country_2
-        self.assertEqual(self.sigar.country, country_2)
-
-    def test_price(self):
+    def test_sigar_price(self):
         self.assertEqual(self.sigar.price, C_PRICE)
-        price_2 = 10
-        self.sigar.price = price_2
-        self.assertEqual(self.sigar.price, price_2)
+        newprice = 0.5
+        self.sigar.price = newprice
+        self.assertEqual(self.sigar.price, newprice)
 
-    def test_length(self):
+    def test_sigar_country(self):
+        self.assertEqual(self.sigar.country, C_COUNTRY)
+        newcountry = 'Mexico'
+        self.sigar.country = newcountry
+        self.assertEqual(self.sigar.country, newcountry)
+
+    def test_sigar_length(self):
         self.assertEqual(self.sigar.length, C_LENGTH)
-        length_2 = 15
-        self.sigar.length = length_2
-        self.assertEqual(self.sigar.length, length_2)
+        newlength = 15.3
+        self.sigar.length = newlength
+        self.assertEqual(self.sigar.length, newlength)
 
-    def test_taste(self):
-        self.assertEqual(self.sigar.taste, C_TASTE)
-        taste_2 = 'testing'
-        self.sigar.taste = taste_2
-        self.assertEqual(self.sigar.taste, taste_2)
+    def test_sigar_taste(self):
+        self.assertEqual(self.sigar.taste, C_MILD)
+
+    def test_sigar_taste_type(self):
+        self.assertEqual(self.sigar.taste_type, C_TYPE)
+        newtype = 1
+        self.sigar.taste_type = newtype
+        self.assertEqual(self.sigar.taste_type, newtype)
+        
+    
+    def test_create_sigar(self):
+        s = create_sigar(C_NAME, C_LENGTH, C_PRICE, C_COUNTRY, C_TYPE)
+        self.assertEqual(s.name, C_NAME)
+        self.assertEqual(s.price, C_PRICE)
+        self.assertEqual(s.length, C_LENGTH)
+        self.assertEqual(s.country, C_COUNTRY)
+        self.assertEqual(s.taste_type, C_TYPE)
+        self.assertEqual(s.taste, C_MILD)
+
+    def test_create_sigar_default_type(self):    
+        s = create_sigar(C_NAME, C_LENGTH, C_PRICE, C_COUNTRY)
+        self.assertEqual(s.name, C_NAME)
+        self.assertEqual(s.price, C_PRICE)
+        self.assertEqual(s.length, C_LENGTH)
+        self.assertEqual(s.country, C_COUNTRY)
+        self.assertEqual(s.taste_type, 0)
+        self.assertEqual(s.taste, C_UNKNOWN)
+    
+
+
 
 
 if __name__ == '__main__':
