@@ -40,13 +40,11 @@ class Person:
 
     @classmethod
     def createWithProperties(cls, name, gift=C_DEFAULT_GIFT):
-        person = cls()
-        person.__name = name
-        person.__gift = gift
+        person = cls(name, gift)
         return person
 
     def __str__(self):
-        return f'Persoon {self.__name}: {self.__gift} euro'
+        return f'{self.__name}: {self.__gift}'
 
 
 class Budget:
@@ -82,42 +80,18 @@ class Budget:
         """
         total_budget = 0
         for pers in self.__people:
-            total_budget += pers.gift
+            total_budget += int(pers.gift)
         return total_budget
 
-    def count_max_min_gift(type_stat=1) -> any:
-        """
-        to find the biggest and the smallest gift
-        :param type_stat: 1 -- returns tuple (name, salary) with max salary
-        type_stat: 2 list with tuples (name, salary) with min salary
-        :return: any, list with tuples of int
-        """
-        list_with_pairs = []
-        max_gift_money = 0
-        min_gift_money = 0
+    def count_max(self, ) -> any:
 
-        for person in self.__people:
-            if max_gift_money <= person.__gift:
-                max_gift_money = person.__gift
-            if min_gift_money >= person.__gift:
-                min_gift_money = person.__gift
-            list_with_pairs.append((person.__name, person.__gift))
+        max_el = sorted(self.people, key=lambda item: int(item.gift), reverse=True)[0]
+        return max_el
 
-        max_gift = [el for el in list_with_pairs if el[1] == max_gift_money]
-        min_gift = [el for el in list_with_pairs if el[1] == min_gift_money ]
+    def count_min(self, ) -> any:
 
-        length_list_salary = len(names_salaries.values())
-        if length_list_salary != 0:
-            avg_salary = sum(names_salaries.values()) / length_list_salary
-        else:
-            print('Sorry, geen salarissen waren gegeven')
-        if type_stat == 1:
-            return max_salary
-        if type_stat == 2:
-            return min_salary
-        if type_stat == 3:
-            return avg_salary
-
+        min_el = sorted(self.people, key=lambda item: int(item.gift))[0]
+        return min_el
 
 def get_input(text: str, conversion_type: int = 0) -> any:
     """
@@ -138,7 +112,7 @@ def get_input(text: str, conversion_type: int = 0) -> any:
         else:
             result = inp
     except ValueError:
-        result = inp
+        result = C_DEFAULT_GIFT
 
     return result
 
@@ -147,10 +121,11 @@ def create_budget() -> Budget:
     users_quit = ''
     budget = Budget()
     while users_quit != C_STOP_CHAR:
-        pers_name = get_input(f'De naam van een persoon: ')
-        pers_gift = get_input(f'Het bedrag voor dit persoon: ')
+        pers_name = get_input(f'de naam van een persoon')
+        pers_gift = get_input(f'het bedrag voor dit persoon', 1)
         person = Person.createWithProperties(pers_name, pers_gift)
         budget.add_people(person)
+        users_quit = input('Type \'n\' als geen andere mensen een cadeau krijgen')
 
     return budget
 
@@ -163,24 +138,24 @@ def do_output(budget: Budget):
     """
     if budget:
         print('-' * 45)
-        print(f'Uw broodje bestaat uit:\nGekozen brood: {bun.bread_type.name}')
-        print(f'Uw beleg: ')
-        for i in range(len(bun.stuffing)):
-            print(bun.stuffing[i].name, end=' ')
-        print()
-        print(f'Uw toppings:')
-        for i in range(len(bun.topping)):
-            print(bun.topping[i].name, end=' ')
-        print()
+        highest = budget.count_max()
+        lowest = budget.count_min()
+        print(f'Persoon {highest.name} krijgt het meeste namelijk {highest.gift} euro')
+        print(f'Persoon {lowest.name} krijgt het minste namelijk {lowest.gift} euro')
+
+        print('Lijst van alle personen:')
+        for i in range(len(budget.people)):
+            print(f'Persoon {budget.people[i].name}: {budget.people[i].gift} euro')
+
         print('-' * 45)
-        print(f'De totale verkoopprijs was {calculate_purchase(bun)} euro')
+        print()
+        print(f'Totaal : {budget.calculate_gifts()} euro')
     else:
-        print('bun was not created')
+        print('budget was not created')
 
 
 def main():
-    bun = create_bun()
-    do_output(bun)
+    do_output(create_budget())
 
 
 if __name__ == '__main__':
