@@ -32,7 +32,6 @@ class Word:
     __letters = []
 
     def __init__(self, word: str):
-        print(word)
         self.__word = word
         self.__len_min = C_WORD_LENGTH_MIN
         self.__len_max = C_WORD_LENGTH_MAX

@@ -11,6 +11,27 @@
 C_STOP_CHAR = 'n'
 
 
+class Line:
+    __line = ''
+
+    def __init__(self, line: str):
+        self.__line = line
+        self.__big_letters, self.__small_letters = self.analyse_str()
+
+    def analyse_str(self) -> tuple[int, int]:
+        big_letters = 0
+        small_letters = 0
+        for letter in self.__line:
+            if letter.islower():
+                small_letters += 1
+            elif letter.isupper():
+                big_letters += 1
+        return big_letters, small_letters
+
+    def __str__(self):
+        return f'{self.__line}\nhoofdletters: {self.__big_letters}, kleine letters: {self.__small_letters}'
+
+
 def input_from_user():
     line = input('Geef, alstublieft, een line van text:  ')
     return line
@@ -21,28 +42,15 @@ def get_lines() -> list:
     list_with_lines = []
     while quit_ != C_STOP_CHAR:
         line = input_from_user()
-        list_with_lines.append(line)
+        list_with_lines.append(Line(line))
         quit_ = input('Als dat genoeg is, type letter \'n\'').strip().lower()
     return list_with_lines
-
-
-def analyse_str(line: str) -> list:
-    big_letters = 0
-    small_letters = 0
-    for letter in line:
-        if letter.islower():
-            small_letters += 1
-        if letter.isupper():
-            big_letters += 1
-    return {line: (big_letters, small_letters)}
 
 
 def print_output(list_with_lines: list):
     for num_str, str in enumerate(list_with_lines, 1):
         print(f'tekst {num_str}:', end=' ')
         print(str)
-        tuple_with_count_letters = analyse_str(str)[str]
-        print(f'hoofdletters: {tuple_with_count_letters[0]}, kleine letters: {tuple_with_count_letters[1]}')
 
 
 def do_run():
