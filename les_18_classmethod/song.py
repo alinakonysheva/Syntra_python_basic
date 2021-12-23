@@ -2,20 +2,20 @@ from json import dumps, loads
 from files import create_json_file, read_json_file
 from inputs import get_input_item
 
-class Song():
+
+class Song:
     __title = ''
     __artist = ''
     __album = ''
     __year = 0
     __played = 0
 
-
     def __init__(self):
         pass
 
     def __str__(self):
-    
-        def empty_as_unknown(prop: str) -> str:
+
+        def empty_as_unknown(prop):
             """internal __str__ helper function 
 
             Args:
@@ -27,7 +27,7 @@ class Song():
             if (type(prop) == str) and prop.strip() == '':
                 return 'unknown'
             else:
-                return prop 
+                return prop
 
         return '{title} - {artist} - {year} - {album} ({played})'.format(
             title=empty_as_unknown(self.title),
@@ -43,15 +43,14 @@ class Song():
         song.__title = title
         song.__artist = artist
         song.__year = year
-        song.__album = album 
+        song.__album = album
         return song
 
     @classmethod
-    def fromDict(cls, value: dict):
+    def fromDict(cls, value):
         song = cls()
         song.as_dict = value
         return song
-        
 
     @property
     def title(self):
@@ -68,62 +67,62 @@ class Song():
     @property
     def album(self):
         return self.__album
-   
+
     @property
-    def as_dict(self) -> dict:
+    def as_dict(self):
         return dict(
-           title=self.title,
-           artist=self.artist,
-           year=self.year,
-           album=self.album,
-           played=self.played        
+            title=self.title,
+            artist=self.artist,
+            year=self.year,
+            album=self.album,
+            played=self.played
         )
-    
+
     @as_dict.setter
-    def as_dict(self, value: dict):
+    def as_dict(self, value):
         self.__title = value["title"]
         self.__artist = value["artist"]
         self.__year = value["year"]
         self.__album = value["album"]
-        self.__played = value["played"]        
+        self.__played = value["played"]
 
     @property
-    def as_json(self) -> str:
+    def as_json(self):
         return dumps(self.as_dict)
 
     @as_json.setter
-    def as_json(self, value: str):
+    def as_json(self, value):
         ddict = loads(value)
-        self.as_dict = ddict        
+        self.as_dict = ddict
 
     @property
-    def played(self) -> int:
+    def played(self):
         return self.__played
 
     def play(self):
         """increase the playcount
         """
-        self.__played +=1
+        self.__played += 1
 
 
-class SongList():  
+class SongList:
     __filename = 'songs.json'
 
-    def __init__(self, filename: str =''):
+    def __init__(self, filename=''):
         self.__items = []
         if filename != '':
             self.__filename = filename
- 
+
     @property
-    def items(self) -> list:
+    def items(self):
         return self.__items
 
     @property
-    def filename(self) -> str:
+    def filename(self):
         return self.__filename
 
     @property
-    def as_dict(self) -> dict:
+    def as_dict(self):
         mylist = []
 
         for song in self.items:
@@ -135,18 +134,18 @@ class SongList():
         return output
 
     @as_dict.setter
-    def as_dict(self, value: dict):
+    def as_dict(self, value):
         mylist = value["data"]
         for item in mylist:
             song = Song.fromDict(item)
             self.items.append(song)
 
     @property
-    def as_json(self) -> str:
+    def as_json(self):
         return dumps(self.as_dict)
 
     @as_json.setter
-    def as_json(self, value: str):
+    def as_json(self, value):
         if value != '':
             d = loads(value)
             self.as_dict = d
@@ -163,7 +162,7 @@ class SongList():
         if filecontents != '':
             self.as_json = filecontents
 
-    def add_song(self, song: Song):
+    def add_song(self, song):
         """add an object song to the interl list
 
         Args:
@@ -172,7 +171,7 @@ class SongList():
         if song is not None:
             self.__items.append(song)
 
-    def add_song_by_properties(self, title: str, artist: str, year: int, album: str):
+    def add_song_by_properties(self, title, artist, year, album):
         """add a song by its properites
 
         Args:
@@ -183,18 +182,17 @@ class SongList():
         """
         song = Song.createWithProperties(title, artist, year, album)
         self.__items.append(song)
-    
-    def remove_song(self, nr: int):
+
+    def remove_song(self, nr):
         """remove a song y id
 
         Args:
             nr (int): index in the list
         """
-        if (nr > -1)and (nr < len(self.__items)):
+        if (nr > -1) and (nr < len(self.__items)):
             del self.__items[nr]
 
-
-    def get_most_played(self) -> Song:
+    def get_most_played(self):
         """get the most played song
 
         Returns:
@@ -211,10 +209,12 @@ class SongList():
 
         return most_played
 
+
 def create_song(artist, title, album, year):
     return Song.createWithProperties(title, artist, year, album)
 
-def create_songlist() -> SongList:
+
+def create_songlist():
     """create a list of songs and load existing songs
 
     Returns:
@@ -224,13 +224,14 @@ def create_songlist() -> SongList:
     songs.load()
     return songs
 
+
 def print_songlist(songs):
     """print all songs, display 
 
     Args:
         songs (SongList): a songlist object (does not need to contain items)
     """
-    print('-'*30)
+    print('-' * 30)
     print('song lijst')
     if songs is not None and len(songs.items) > 0:
         counter = 0
@@ -240,8 +241,9 @@ def print_songlist(songs):
     else:
         print('geen songs gevonden')
 
-def get_input_song() -> Song:
-    print('-'*30)
+
+def get_input_song():
+    print('-' * 30)
     print('song toevoegen')
     artist = get_input_item('geef de artiest: ')
     title = get_input_item('title: ')
@@ -249,6 +251,7 @@ def get_input_song() -> Song:
     album = get_input_item('geef het album: ')
 
     return create_song(artist, title, album, year)
+
 
 def add_song(songs):
     """add song, display 
@@ -259,22 +262,25 @@ def add_song(songs):
     if songs is not None:
         song = get_input_song()
         songs.add_song(song)
-    
+
+
 def remove_song(songs):
     if songs is not None:
-        print('-'*30)
+        print('-' * 30)
         print('song wissen')
         print_songlist(songs)
         nr = get_input_item('geef uw song nummer in om te wissen: ', 1)
-        songs.remove_song(nr-1)
+        songs.remove_song(nr - 1)
+
 
 def play_song(songs):
     if songs is not None:
-        print('-'*30)
+        print('-' * 30)
         print('song afspelen')
         print_songlist(songs)
         nr = get_input_item('geef uw song nummer in om af te spelen: ', 1)
-        songs.items[nr-1].play()
+        songs.items[nr - 1].play()
+
 
 def most_played(songs):
     if songs is not None:

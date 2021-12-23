@@ -1,4 +1,4 @@
-def get_input_item(text, result_type=0, retry_count=5):
+def get_input_item(text:str, result_type:int = 0, retry_count:int = 5) -> any:
     """get the input
 
     Args:
@@ -21,6 +21,7 @@ def get_input_item(text, result_type=0, retry_count=5):
             result = float(result.replace(',', '.'))
     except Exception as e:
         if retry_count < 5:
-            result = get_input_item(text, result_type, retry_count + 1)
+            result = get_input_item(text, result_type, retry_count+1)
 
     return result
+

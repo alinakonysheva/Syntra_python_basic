@@ -2,15 +2,14 @@ import os
 
 C_FILE = 'output.json'
 
-
-def __get_filename(name):
+def __get_filename(name: str):
     filename = name.strip()
     if filename == '':
         filename = C_FILE
     return filename
 
 
-def create_json_file(contents, name=''):
+def create_json_file(contents: str, name: str = ''):
     try:
         with open(__get_filename(name), 'w') as f:
             f.write(contents)
@@ -21,7 +20,8 @@ def create_json_file(contents, name=''):
     return True
 
 
-def read_json_file(name=''):
+def read_json_file(name: str = '') -> str:
+    
     filename = __get_filename(name)
     contents = ''
     if os.path.exists(filename):

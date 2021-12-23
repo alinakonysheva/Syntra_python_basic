@@ -13,18 +13,14 @@ C_TEXT_WARN = 'Probeer alstublieft nog één keer'
 class Person:
     __first_name = ''
     __last_name = ''
-    __birth_day = 0
-    __birth_month = 0
-    __birth_year = 0
+    __birthday = None
     __birthplace = ''
 
-    def __init__(self, first_name, last_name, birthplace, birth_day, birth_month, birth_year):
+    def __init__(self, first_name: str, last_name: str, birthplace: str, birthday: str):
         self.first_name = first_name
         self.last_name = last_name
         self.birthplace = birthplace
-        self.birth_day = birth_day
-        self.birth_month = birth_month
-        self.birth_year = birth_year
+        self.__birthday = birthday
 
     @property
     def first_name(self):
@@ -51,44 +47,31 @@ class Person:
         self.__birthplace = value
 
     @property
-    def birth_day(self):
-        return self.__birth_day
+    def birthdate(self) -> any:
+        return self.__birthday
 
-    @birth_day.setter
-    def birth_day(self, value):
-        self.__birth_day = value
+    @birthdate.setter
+    def birthdate(self, value: str) -> any:
+        """
+        As an input is a isodate string with a date in a format 9999-12-31.
+        If str was in a format 9999-12-31 and if deadline is earlier than today
+        then returns deadline as date.
+        If str was not on correct format or earlier than today then None.
+        :param value: isodate str, YYYY-MM-DD
+        returns: deadline as date or None
+        """
+        today = date.today()
 
-    @property
-    def birth_year(self):
-        return self.__birth_year
+        try:
+            birthday = date.fromisoformat(value)
+            if birthday > today:
+                raise ValueError('Birthday can not be set later than today')
+            self.__birthday = birthday
 
-    @birth_year.setter
-    def birth_year(self, value):
-        self.__birth_year = value
+        except Exception as e:
+            print(f'Incorrect input date string ({value}):', e)
+            self.__birthday = None
 
-    @property
-    def birth_month(self):
-        return self.__birth_month
-
-    @birth_day.setter
-    def birth_month(self, value):
-        self.__birth_month = value
-
-
-def get_input(text: str, conversion_type: int = 0) -> 0:
-    '''
-    get input and convert тут стояло еще что-то, посмотреть после урока что именно
-    :param text([str]): text to use in the display
-    :param conversion_type:
-    :return: any: int or string, depends on conversion_type
-    '''
-
-    result = None
-
-    try:
-        pass
-    except:
-        pass
 
 
 def create_person() -> Person:

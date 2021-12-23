@@ -1,8 +1,9 @@
 import os
 import unittest
-from unittest import TestCase, main as testmain
-from song import Song, SongList
-from files import create_json_file, read_json_file
+from unittest import TestCase
+from song import Song
+from song import SongList
+from files import read_json_file
 
 C_ARTIST = 'Charlie laagherrie & mentale theo'
 C_TITLE = 'Wonderfull days'
@@ -17,6 +18,7 @@ C_JSON = '''{
             "played": 0
         }'''
 
+
 class TestSong(unittest.TestCase):
 
     def setUp(self):
@@ -27,10 +29,10 @@ class TestSong(unittest.TestCase):
 
     def test_artist(self):
         self.assertEqual(self.song.artist, C_ARTIST)
-        
+
     def test_album(self):
         self.assertEqual(self.song.album, C_ALBUM)
-        
+
     def test_year(self):
         self.assertEqual(self.song.year, C_YEAR)
 
@@ -54,24 +56,21 @@ class TestSong(unittest.TestCase):
     def test_play(self):
         self.assertEqual(self.song.played, 0)
         self.song.play()
-        self.assertEqual(self.song.played, 1)        
-
-
+        self.assertEqual(self.song.played, 1)
 
 
 class TestSongList(TestCase):
     def test_items(self):
         self.songs = SongList(C_FILENAME)
         self.songs.items.append(Song.createWithProperties(C_TITLE, C_ARTIST, C_YEAR, C_ALBUM))
-        self.songs.save()        
-        
+        self.songs.save()
+
         self.assertTrue(os.path.exists(self.songs.filename))
         content = read_json_file(self.songs.filename)
         self.assertIn(str(C_YEAR), content)
         self.assertIn(C_ARTIST, content)
         self.assertIn(C_ALBUM, content)
         self.assertIn(C_TITLE, content)
-
 
         self.songs = SongList(C_FILENAME)
         self.songs.load()
@@ -81,8 +80,3 @@ class TestSongList(TestCase):
         self.assertEqual(self.songs.items[0].artist, C_ARTIST)
         self.assertEqual(self.songs.items[0].year, C_YEAR)
         self.assertEqual(self.songs.items[0].album, C_ALBUM)
-        
-        
-
-if __name__ == '__main__':
-    testmain()   
