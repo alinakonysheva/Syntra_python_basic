@@ -103,7 +103,7 @@ def create_person() -> Person:
     first_name = GetInput.get_text('your first name: ')
     last_name = GetInput.get_text('your last name: ')
     birth_place = GetInput.get_text('your birth place: ')
-    birth_date = GetInput.get_text('your birthday in YYYY-MM-DD ')
+    birth_date = GetInput.get_isostr('your birthday in YYYY-MM-DD ')
     p = Person(first_name, last_name, birth_place, birth_date)
     return p
 
