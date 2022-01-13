@@ -1,0 +1,1 @@
+# in dir out/{YYYY-MM-DD-EVENT_NAME}/{guest_name}.txt

@@ -8,7 +8,7 @@ class Person:
     __name_first = ''
     __name_last = ''
     __birthdate = None
-    __sex_type = 0
+    __sexe_type = 0
     __address = None
 
 
@@ -26,7 +26,7 @@ class Person:
         self.lastname = lastname
         self.set_birthday(year, month, day)
         self.__address = create_adress()
-        self.__sex_type = sexe_type
+        self.__sexe_type = sexe_type
 
     def __str__(self):
         return '{} - {}/{}/{} - {}'.format(self.name, self.birthdate.day,
@@ -120,7 +120,7 @@ class Person:
 
     @property
     def sexe(self):
-        return sexe_types[self.__sex_type]
+        return sexe_types[self.__sexe_type]
 
     @property
     def to_dict(self) -> dict:

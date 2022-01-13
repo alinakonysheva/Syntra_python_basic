@@ -34,10 +34,10 @@ class Numbers:
         return subtraction
 
     def get_multiplication(self):
-        '''
+        """
         to multiply given numbers
         :return: multiplication
-        '''
+        """
         try:
             multiplication = self.first_number * self.second_number
         except ValueError:
@@ -45,10 +45,10 @@ class Numbers:
         return multiplication
 
     def get_division(self):
-        '''
+        """
         to divide first number by second number
         :return: result of division. If second number = 0, them returns str 'infinity'
-        '''
+        """
         try:
             if self.second_number != 0:
                 division = self.first_number * self.second_number

@@ -1,0 +1,3 @@
+class Template:
+    name = ''
+    content = ''

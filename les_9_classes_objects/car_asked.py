@@ -12,10 +12,10 @@ class Car:
 
 
 def get_input():
-    '''
+    """
     no arguments
     :return: color, brand, plate
-    '''
+    """
     color = input('the color of your car is >>  ')
     brand = input('the brand of your car is >>  ')
     plate = input('your plate number is >>  ')
@@ -23,28 +23,30 @@ def get_input():
 
 
 def create_car():
-    '''
+    """
     to create car instance
     :return: class car instance
-    '''
+    """
     thecar = Car()
     thecar.color, thecar.brand, thecar.plate = get_input()
     return thecar
 
 
 def output(some_car):
-    '''
+    """
     to return properties of a car, if no car given then None
     :param some_car:
     :return:  color, brand, plate number, if no car given then None
-    '''
+    """
 
     if some_car:
         return some_car.color, some_car.brand, some_car.plate
     else:
         return None
 
+
 number_of_cars = 2
+
 
 def do_run():
     for car in range(number_of_cars):
