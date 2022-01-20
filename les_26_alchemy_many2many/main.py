@@ -2,8 +2,9 @@ import sys
 
 from database import create_database, session
 
-from actor import show_all_actors, show_all_films, add_change_film, add_actors_to_film, search_film, search_actor, \
-    add_change_actor
+from actor import show_all_actors, search_actor, add_change_actor
+from film import show_all_films, add_change_film, search_film
+from filmactor import add_actors_to_film
 from inputs import GetInput
 from utils import print_title
 

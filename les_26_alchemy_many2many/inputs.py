@@ -17,7 +17,7 @@ class GetInput:
                                          2 -> convert result to float
                                          3 -> check of the format looks like isostring, returns str if looks like that
                                          returns None if str doesn't look like isostring
-            retry_count: asks to input 5 times and to
+            retry_count: asks to input 2 times and to
 
         Returns:
             any (int, str): result of the input
@@ -35,14 +35,14 @@ class GetInput:
                 if temp:
                     result = temp.string
                 else:
-                    if retry_count < 5:
-                        print(f'you have {5 - retry_count} more attempts to give a correct input')
+                    if retry_count < 2:
+                        print(f'you have {2 - retry_count} more attempts to give a correct input')
                         result = GetInput._get_input_item(text, result_type, retry_count + 1)
                     else:
                         return None
         except Exception as e:
-            if retry_count < 5:
-                print(f'you have {5 - retry_count} more attempts to give a correct input')
+            if retry_count < 2:
+                print(f'you have {2 - retry_count} more attempts to give a correct input')
                 result = GetInput._get_input_item(text, result_type, retry_count + 1)
             print(e)
 
