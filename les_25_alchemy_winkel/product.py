@@ -1,111 +1,38 @@
-from sqlalchemy import Column, Integer, String, Date, Boolean
+from sqlalchemy import Column, Integer, String, Date, Boolean, Numeric
 from database import session, Base
 from utils import print_title
 from inputs import GetInput
 from datetime import date
 from dateutil.relativedelta import relativedelta
 
+# Een winkel verkoopt producten die elk een categorie hebben
+# Maak het volgende aan
+# - klanten (een klant kan meerdere adressen hebben, voorzie een “default shipping” adres)
+# - producten
+# - bestellingen
+# Per bestelling kan slechts 1 product gekocht worden. Een bestelling heeft ook een adres. Hier moet je
+# dus het verzendingsadres hebben en dit is niet altijd hetzelfde als het adres van de klant.
+#  Maak zoekmogelijkheden op producten en klanten. Geef ook een overzicht van de bestellingen.
 
-# We gaan een klantenbestand aanmaken. Elke klant heeft de volgende gegevens
-# Naam, voornaam, geboortedatum, adres, email, gsm, klant sinds, naam bedrijfs, adres bedrijf, btw nummer,
-# website, email, opmerking. De bedrijfsgegevens zijn niet verplicht, een klant kan een privé persoon
-# zijn of een bedrijf
-# Voeg standaard acties toe zoals, alles bekijken, toevoegen, wissen, updaten.
-# Voeg ook nog het volgende toe
-# - bekijk alle klanten die reeds x aantal jaar klant zijn
-# - zoek klanten per gemeente
-# - toon alle klanten met een leeftijd van minstens x aantal jaar of met
-# een exacte leeftijd van x aantal jaar - zoek klanten met naam x
-# - zoek klanten op basis van bedrijfsnaam
-# - zoek klanten op basis van BTW nummer
+category = {1: 'cat1', 2: 'cat2', 3: 'cat3'}
 
-class Client(Base):
-    __tablename__ = 'T_CLIENT'
+
+class Product(Base):
+    __tablename__ = 'T_Product'
 
     id = Column('PK_ID', Integer, primary_key=True)
-    firstname = Column('F_FIRSTNAME', String(50))
-    lastname = Column('F_LASTNAME', String(50))
-    birth_date = Column('F_BIRTHDAY', Date)
-    address = Column('F_ADDRESS', String(50))
-    email = Column('F_EMAIL', String(100))
-    gsm = Column('F_GSM', String(50))
-    start_date = Column('F_START_DATE', Date)
-    is_company = Column('IS_COMPANY', Boolean, default=False)
-    company_address = Column('F_COMPANY_ADDRESS', String(100))
-    company_name = Column('F_COMPANY_NAME', String(150))
-    company_gsm = Column('F_COMPANY_GSM', String(50))
-    company_btw = Column('F_COMPANY_BTW', String(150))
-    company_web_site = Column('F_COMPANY_WEB_SITE', String(150))
-    notes = Column('NOTES', String(50))
+    name = Column('F_FIRSTNAME', String(50))
+    price = Column('F_PRICE', Numeric)
+    weight = Column('F_WEIGHT', Numeric)
+    category = Column('F_CATEGORY', Integer)
 
     def __str__(self) -> str:
-        if self.is_company:
-            return f'{self.company_name} - {self.firstname} {self.lastname} - {self.company_gsm} - {self.company_address}'
-        else:
-            return f'{self.id} - {self.firstname} {self.lastname} - {self.gsm} - {self.address}'
-
-    def set_birth_date(self, value: str) -> any:
-
-        """
-        As an input is a isodate string with a date in a format 9999-12-31.
-        If str was in a format 9999-12-31 and if deadline is earlier than today
-        then returns deadline as date.
-        If str was not on correct format or earlier than today then None.
-        :param value: isodate str, YYYY-MM-DD
-        returns: deadline as date or None
-        """
-        today = date.today()
-
-        try:
-            birthday = date.fromisoformat(value)
-            if birthday > today:
-                raise ValueError('Birthday can not be set later than today')
-            self.birth_date = birthday
-
-        except Exception as e:
-            print(f'Incorrect input date string ({value}):', e)
-            self.birth_date = None
-
-    def set_start_date(self, value: str) -> any:
-
-        """
-        As an input is a isodate string with a date in a format 9999-12-31.
-        If str was in a format 9999-12-31 and if deadline is earlier than today
-        then returns deadline as date.
-        If str was not on correct format or earlier than today then None.
-        :param value: isodate str, YYYY-MM-DD
-        returns: deadline as date or None
-        """
-        today = date.today()
-
-        try:
-            start_date = date.fromisoformat(value)
-            if start_date > today:
-                raise ValueError('dateof start working with client can not be set later than today')
-            self.start_date = start_date
-        except Exception as e:
-            print(f'Incorrect input date string ({value}):', e)
-            self.start_date = None
-
-    def clear_company_data(self):
-        self.is_company = False
-        self.company_name = ''
-        self.company_btw = ''
-        self.company_web_site = ''
-        self.company_address = ''
-
-    def years_together(self):
-        years_together = relativedelta(date.today(), self.start_date).years
-        return years_together
-
-    def client_age(self):
-        if self.birthdate:
-            return relativedelta(date.today(), self.__birthdate).years
-        else:
-            return None
+        return f'{self.id} - {self.fname} {self.weight} g - {self.category}'
 
 
-def load_clients() -> list[Client]:
+
+
+def load_products() -> list[Product]:
     return session.query(Client).all()
 
 
