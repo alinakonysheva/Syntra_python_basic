@@ -1,1 +1,4 @@
-# in dir out/{YYYY-MM-DD-EVENT_NAME}/{guest_name}.txt
+from guest import Guest
+
+if __name__ == '__main__':
+    g = Guest()

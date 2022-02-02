@@ -5,21 +5,20 @@ from sqlalchemy import create_engine
 from database import Base, create_database
 from sqlalchemy.orm import sessionmaker
 from actor import Actor
-from film import Film
-from filmactor import FilmActor
+
 
 C_NAME = 'Name_1'
 C_INCORRECT_NAME = ''
 C_YEAR = 2000
 C_INCORRECT_YEAR = 1786
 
-
 class BaseDbTest(TestCase):
-    engine = create_engine('sqlite://')
-    session = sessionmaker(bind=engine)()
+
+    engine = create_engine('sqlite:///test.db')
+    session = sessionmaker(bind = engine)()
 
     def setUp(self):
-        create_database(self.engine, False)
+        create_database(self.engine, True)
         self.do_setup()
 
     @abstractmethod
@@ -27,17 +26,21 @@ class BaseDbTest(TestCase):
         pass
 
 
-# сие работает, ДАЛЬШЕ ПО ОБРАЗЦУ
+
 class ActorTests(BaseDbTest):
     def do_setup(self):
         pass
 
+
     def test_actor(self):
         actor = Actor()
-        actor.name = 'ttest'
+        actor.firstname = 'ttest'
+        actor.lastname = 'tets'
+        actor.birthdate = datetime(2000, 1, 1).date()
 
         self.session.add(actor)
         self.session.commit()
+
 
         r = self.session.query(Actor).get(1)
         self.assertEqual(r.name, actor.name)
@@ -64,7 +67,7 @@ class ActorControllerTests(BaseDbTest):
         print(a.name)
 
 
-class TestActor(TestCase):
+class TestActor(unittest.TestCase):
 
     def setUp(self) -> None:
         a = Actor()
@@ -77,3 +80,4 @@ class TestActor(TestCase):
     def test_incorrect_name(self):
         with self.assertRaises(ValueError):
             self.actor.name = C_INCORRECT_NAME
+

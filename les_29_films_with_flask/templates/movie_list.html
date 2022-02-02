@@ -1,0 +1,36 @@
+{% extends 'index_base.html' %}
+
+{% block pagetitle %}
+{% endblock %}
+
+{% block maintitle %}
+Film lijst
+{% endblock %}
+
+{% block maincontent %}
+<a href="{{ url_for('do_movie_detail') }}">
+    + film
+</a>
+<p>&nbsp;</p>
+<table border=1 cellpadding=1 cellspacing=2 width=100%>
+    <tr>
+        <th width=100>ID</th>
+        <th>Naam</th>
+        <th width=100>Jaar</th>
+    </tr>
+    {% for movie in movies %}
+    <tr>
+        <td>
+            <a href="{{ url_for('do_movie_detail', movieid=movie.id) }}">
+            {{ movie.id }}
+            </a>
+        </td>
+        <td>{{ movie.title }}</td>
+        <td>{{ movie.year }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+
+{% endblock %}

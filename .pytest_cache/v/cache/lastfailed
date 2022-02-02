@@ -1,3 +1,10 @@
 {
-  "les_18_classmethod/unittests/test_song.py": true
+  "final_project/tests/test_event.py": true,
+  "final_project/tests/test_eventguest.py": true,
+  "final_project/tests/test_guest.py": true,
+  "final_project/tests/test_template.py": true,
+  "les_15_unit_test_json_example/test_jsonimport.py": true,
+  "les_18_classmethod/unittests/test_song.py": true,
+  "les_26_alchemy_many2many/test_actor.py": true,
+  "les_28_MVC_unittests_alchimy/test_actor.py": true
 }

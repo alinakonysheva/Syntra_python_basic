@@ -1,0 +1,26 @@
+{% extends 'index_base.html' %}
+
+
+{% block title_block %}Detail - {{ song.artist }} : {{ song.title }} {% endblock %}
+{% block main_content %}
+
+<div class="row">
+    <div class="col">
+        <a href="{{ url_for('do_music_list') }}"><- terug naar overzicht </a>
+    </div>
+</div>
+
+<div class="tinyspace"></div>
+
+<form method="post" action="">
+    {{ form.hidden_tag() }}
+    {{ form.artist.label }} {{ form.artist }}<br>
+    {{ form.title.label }} {{ form.title(class_="form-control") }}<br>
+    {{ form.year.label }} {{ form.year }}<br>
+    {{ form.genre.label }} {{ form.genre(class_="form-control") }}<br>
+    
+    {{ form.submit }}
+</form>
+
+
+{% endblock %}

@@ -1,7 +1,7 @@
-from datetime import datetime, date, time
+from datetime import date, time
 from sqlalchemy.ext.hybrid import hybrid_property
 from database import BaseObj
-from sqlalchemy import Column, Integer, ForeignKey, String, Date, Time
+from sqlalchemy import Column, ForeignKey, String, Date, Time
 from template import Template
 from sqlalchemy.orm import relationship
 
@@ -17,7 +17,7 @@ class Event(BaseObj):
     _party_place = Column('F_PARTY_PLACE', String(400))
     _party_features = Column('F_PARTY_FEATURES', String(400))
 
-    template_id = Column('F_CUSTOMERID', ForeignKey(Template.id), index=True)
+    template_id = Column('F_TEMPLATE_ID', ForeignKey(Template.id), index=True)
     template = relationship(Template, foreign_keys='Event.template_id')
     guests = relationship('EventGuest', back_populates='event')
 

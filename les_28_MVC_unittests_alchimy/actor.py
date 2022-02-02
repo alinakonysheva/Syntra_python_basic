@@ -19,7 +19,7 @@ class Actor(BaseTest):
 
     @hybrid_property
     def name(self):
-        return str(self._name).lower()
+        return self._name.lower()
 
     @name.setter
     def name(self, value):

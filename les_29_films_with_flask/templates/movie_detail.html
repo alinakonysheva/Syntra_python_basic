@@ -1,0 +1,25 @@
+{% extends 'index_base.html' %}
+
+{% block pagetitle %}
+{{ movie.title }} ({{ movie.year }})
+{% endblock %}
+
+
+{% block maintitle %}
+Detail - {{ movie.title }} ({{ movie.year }})
+{% endblock %}
+
+{% block maincontent %}
+<center>
+    <a href="{{ url_for('do_movie_list') }}">Ga terug naar lijst</a>
+</center>
+<p>&nbsp;</p>
+
+<form method="post" action="">
+    {{ form.hidden_tag() }}
+    {{ form.title.label }} {{ form.title }}<br>
+    {{ form.year.label }} {{ form.year }}<br>
+    {{ form.description.label }} {{ form.description }}<br>
+    {{ form.submit }}    
+</form>
+{% endblock %}

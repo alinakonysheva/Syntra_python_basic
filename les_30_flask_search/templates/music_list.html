@@ -1,0 +1,56 @@
+{% extends 'index_base.html' %}
+
+
+{% block title_block %}Alle muziek{% endblock %}
+{% block main_content %} 
+
+
+<div class="row">
+    <div class="col">
+        <a href="{{ url_for('do_song') }}">+ toevoegen</a>
+    </div>
+</div>
+<div class="tinyspace"></div>
+
+{% if searchtext != '' %}
+<div class="row">
+  <div class="col">
+     Zoektext = "{{ searchtext }}"
+  </div>
+</div>
+<div class="tinyspace"></div>
+{% endif %}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <th>id</th>
+        <th>artiest</th>
+        <th>titel</th>
+        <th>jaar</th>        
+      </thead>
+      <tbody>
+        {% for song in music %}
+            <tr>   
+                <td>
+                    <a href="{{ url_for('do_song', song_id=song.id) }}">
+                    {{ song.id }}
+                    </a>
+                </td>
+                <td>{{ song.artist }}</td>
+                <td>{{ song.title }}</td>
+                <td>{{ song.year }}</td>
+            </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <th>id</th>
+        <th>artiest</th>
+        <th>titel</th>
+        <th>jaar</th>        
+      </tfoot>
+    </table>
+  </div>
+
+
+{% endblock %}

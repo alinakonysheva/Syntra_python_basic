@@ -76,3 +76,4 @@ class Guest(BaseObj):
     @property
     def __str__(self) -> str:
         return f'{self.id}: {self._first_name} {self._last_name} '
+

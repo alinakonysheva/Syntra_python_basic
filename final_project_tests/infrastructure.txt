@@ -1,0 +1,7 @@
+error: mysql.connector.errors.NotSupportedError: Authentication plugin 'caching_sha2_password' is not supported
+
+solved: pyenv exec pip uninstall mysql-connector
+
+pyenv exec pip install mysql-connector-python
+
+

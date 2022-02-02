@@ -27,7 +27,7 @@ class BaseTest(Base):
     id = Column('PK_ID', Integer, primary_key=True, index=True)
 
 
-def create_database(engine, do_erase=False):
+def create_database(do_erase=False):
     from actor import Actor
     from film import Film
     from filmactor import FilmActor

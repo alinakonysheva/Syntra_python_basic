@@ -1,25 +1,28 @@
 from abc import abstractmethod
-from datetime import datetime
-from unittest import TestCase, main as testmain
+from unittest import TestCase
 from sqlalchemy import create_engine
-from database import Base, create_database
+from database import create_database
 from sqlalchemy.orm import sessionmaker
-from actor import Actor
-from film import Film
-from filmactor import FilmActor
+from guest import Guest
 
-C_NAME = 'Name_1'
-C_INCORRECT_NAME = ''
-C_YEAR = 2000
-C_INCORRECT_YEAR = 1786
+C_FIRST_NAME = 'Mike'
+C_LAST_NAME = 'Bear'
+C_MIDDLE_NAME = 'Kon'
+C_FATHERS_NAME = 'Papa'
+C_MOTHERS_NAME = 'Mama'
+C_FATHERS_PHONE = '04685643'
+C_MOTHERS_PHONE = '04685678'
+C_GUESTS_PHONE = '01185643'
+C_GUESTS_EMAIL = 'mike123@mail.com'
+C_GUESTS_ADDRESS = 'Country Town Street number. Specific things'
 
 
 class BaseDbTest(TestCase):
-    engine = create_engine('sqlite://')
+    engine = create_engine('sqlite:///test.db')
     session = sessionmaker(bind=engine)()
 
     def setUp(self):
-        create_database(self.engine, False)
+        create_database(self.engine, True)
         self.do_setup()
 
     @abstractmethod
@@ -27,22 +30,31 @@ class BaseDbTest(TestCase):
         pass
 
 
-# сие работает, ДАЛЬШЕ ПО ОБРАЗЦУ
-class ActorTests(BaseDbTest):
+class GuestTests(BaseDbTest):
     def do_setup(self):
         pass
 
-    def test_actor(self):
-        actor = Actor()
-        actor.name = 'ttest'
+    def test_guest(self):
+        guest = Guest()
+        guest.firstname = C_FIRST_NAME
+        guest.lastname = C_LAST_NAME
+        guest.middle_name = C_MIDDLE_NAME
+        guest.fathers_phone = C_FATHERS_PHONE
+        guest.fathers_name = C_FATHERS_NAME
+        guest.mothers_name = C_MOTHERS_NAME
+        guest.mothers_phone = C_MOTHERS_PHONE
+        guest.guests_address = C_GUESTS_ADDRESS
+        guest.guests_email = C_GUESTS_EMAIL
+        guest.guests_phone = C_GUESTS_PHONE
 
-        self.session.add(actor)
+        self.session.add(guest)
         self.session.commit()
 
-        r = self.session.query(Actor).get(1)
-        self.assertEqual(r.name, actor.name)
+        got_guest = self.session.query(guest).get(1)
+        self.assertEqual(got_guest.firstname, guest.firstname)
 
 
+"""
 class ActorControllerTests(BaseDbTest):
     def do_setup(self):
         actor = Actor()
@@ -64,7 +76,7 @@ class ActorControllerTests(BaseDbTest):
         print(a.name)
 
 
-class TestActor(TestCase):
+class TestActor(unittest.TestCase):
 
     def setUp(self) -> None:
         a = Actor()
@@ -77,3 +89,4 @@ class TestActor(TestCase):
     def test_incorrect_name(self):
         with self.assertRaises(ValueError):
             self.actor.name = C_INCORRECT_NAME
+"""
