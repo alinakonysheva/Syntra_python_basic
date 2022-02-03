@@ -32,11 +32,11 @@ def create_database(engine_, do_erase=False):
     create the database
     """
     if do_erase is True:
-        Event.__table__.drop(bind=engine)
-        Guest.__table__.drop(bind=engine)
-        Template.__table__.drop(bind=engine)
-        EventGuest.__table__.drop(bind=engine)
+        Event.__table__.drop(bind=engine_)
+        Guest.__table__.drop(bind=engine_)
+        Template.__table__.drop(bind=engine_)
+        EventGuest.__table__.drop(bind=engine_)
 
     # create tables
-    Base.metadata.create_all(engine)
+    Base.metadata.create_all(engine_)
 
